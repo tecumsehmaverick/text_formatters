@@ -11,7 +11,7 @@
 	/**
 	 * Display a table view of available test cases.
 	 */
-	class ContentExtensionText_FormattersIndex extends TextFormatterPage {
+	class ContentExtensionText_FormattersIndex extends FormatterPage {
 		/**
 		 * Greate the page form.
 		 */
@@ -53,24 +53,16 @@
 				$info = (object)$formatter->about();
 				$row = new XMLElement('tr');
 				
-				if ($formatter instanceof EditableTextFormatter) {
-					$row->appendChild(Widget::TableData(
-						Widget::Anchor(
-							$info->name,
-							sprintf(
-								'%s/test/%s/',
-								$this->root_url,
-								$test->handle
-							)
+				$row->appendChild(Widget::TableData(
+					Widget::Anchor(
+						$info->name,
+						sprintf(
+							'%s/edit/%s/',
+							$this->root_url,
+							$formatter->handle
 						)
-					));
-				}
-				
-				else {
-					$row->appendChild(Widget::TableData(
-						$info->name
-					));
-				}
+					)
+				));
 				
 				if ($info->{'in-extension'}) {
 					$extension = (object)Symphony::ExtensionManager()->create($info->{'extension'})->about();

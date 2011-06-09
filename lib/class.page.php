@@ -10,7 +10,7 @@
 	 * Adds useful utilities, well not really. It just sets $root_url so
 	 * that pages can build URLs.
 	 */
-	class TextFormatterPage extends AdministrationPage {
+	class FormatterPage extends AdministrationPage {
 		protected $root_url;
 		
 		public function __construct() {

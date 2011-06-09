@@ -60,6 +60,9 @@
 					 * @todo Remove this when $this->_Parent is obsoleted.
 					 */
 					$object = new $class(Symphony::Engine());
+					
+					if (!$object instanceof Formatter) continue;
+					
 					$object->handle = $match['handle'];
 					$object->file = $file;
 					$objects[] = $object;
