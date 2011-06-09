@@ -4,6 +4,7 @@
 	 * @package content
 	 */
 	
+	require_once EXTENSIONS . '/text_formatters/lib/class.formatter.php';
 	require_once EXTENSIONS . '/text_formatters/lib/class.iterator.php';
 	require_once EXTENSIONS . '/text_formatters/lib/class.page.php';
 	
@@ -15,7 +16,7 @@
 		 * Greate the page form.
 		 */
 		public function view() {
-			$formatters = new TextFormatterIterator();
+			$formatters = new FormatterIterator();
 			
 			$this->setPageType('table');
 			$this->setTitle(__(

@@ -7,7 +7,7 @@
 	/**
 	 * Fetches all available text formatters.
 	 */
-	class TextFormatterIterator extends ArrayIterator {
+	class FormatterIterator extends ArrayIterator {
 		/**
 		 * The pattern used to match text formatters.
 		 */
@@ -61,6 +61,7 @@
 					 */
 					$object = new $class(Symphony::Engine());
 					$object->handle = $match['handle'];
+					$object->file = $file;
 					$objects[] = $object;
 				}
 				
@@ -75,18 +76,6 @@
 			}
 
 			parent::__construct(self::$cache);
-		}
-
-		/**
-		 * Does this iterator contain a test case with the specified handle?
-		 * @param string $handle The test case handle.
-		 */
-		public function hasFileWithHandle($handle) {
-			foreach ($this as $filter) {
-				if (SymphonyTest::findHandleFromPath($filter) == $handle) return true;
-			}
-
-			return false;
 		}
 	}
 	

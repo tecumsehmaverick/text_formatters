@@ -4,6 +4,10 @@
 	 * @package formatters
 	 */
 	
+	require_once EXTENSIONS . '/text_formatters/lib/class.formatter.php';
+	require_once EXTENSIONS . '/text_formatters/lib/class.iterator.php';
+	require_once EXTENSIONS . '/text_formatters/lib/class.page.php';
+	
 	/**
 	 * Provide a text formatter editor interface for Symphony.
 	 */
@@ -62,6 +66,21 @@
 					'page' => '/system/preferences/',
 					'delegate' => 'Save',
 					'callback' => 'actionsPreferences'
+				),
+				array(
+					'page'		=> '/backend/',
+					'delegate'	=> 'AppendTextFormatter',
+					'callback'	=> 'appendTextFormatter'
+				),
+				array(
+					'page'		=> '/backend/',
+					'delegate'	=> 'ModifyTextareaFieldPublishWidget',
+					'callback'	=> 'appendTextFormatter'
+				),
+				array(
+					'page'		=> '/backend/',
+					'delegate'	=> 'ModifyTextBoxFullFieldPublishWidget',
+					'callback'	=> 'appendTextFormatter'
 				)
 			);
 		}
@@ -75,7 +94,7 @@
 			return array(
 				array(
 					'location'	=> $group,
-					'name'		=> __('Formatters'),
+					'name'		=> __('Text Formatters'),
 					'link'		=> '/index/'
 				),
 				array(
@@ -91,6 +110,31 @@
 					'visible'	=> 'no'
 				)
 			);
+		}
+		
+		/**
+		 * Listen for traditional delegates and use modern formatters.
+		 */
+		public function appendTextFormatter($context) {
+			$field = $context['field'];
+			$formatter_handle = $field->get('text_formatter');
+			$textarea = (
+				isset($context['input'])
+					? $context['input']
+					: $context['textarea']
+			);
+			
+			if (false === Formatter::exists($formatter_handle)) {
+				throw new Exception(__(
+					"Unable to find text formatter '%s'.",
+					array(
+						$formatter_handle
+					)
+				));
+			}
+			
+			$formatter = Formatter::load($formatter_handle);
+			$formatter->displayPublishPanel($field, $textarea);
 		}
 		
 		/**
